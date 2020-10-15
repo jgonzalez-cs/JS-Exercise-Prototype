@@ -39,10 +39,28 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
 }
 
+Person.prototype.eat = function(food) {
+    if(this.stomach.length < 10) {
+        this.stomach.push(food)
+    }
+}
+
+Person.prototype.poop = function() {
+    this.stomach = []
+}
+
+Person.prototype.toString = function() {
+    return `${this.name}, ${this.age}`
+}
+
+const Joe = new Person("Joe", 21)
+console.log(Joe)
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -57,8 +75,15 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+}
 
+Car.prototype.fill = function(fuel) {
+    this.tank += fuel
 }
 
 /*
@@ -68,18 +93,27 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+    Person.call(this, name, age)
+    this.favoriteToy = favoriteToy
 }
 
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function() {
+    return `Playing with ${this.favoriteToy}`
+}
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. When not specified, the this keyword will default to bind to the window/global object.
+  
+  2. Implicit binding is when you call a method on an object, the object on the left of the dot operator will receive the this keyword.
+
+  3. New binding is when you instantiate an object using its constructor function. This refers to the specific instance of the object. 
+
+  4. Explicit binding is when we use .call() or .apply() to explicitly define what this is.
 */
 
 
